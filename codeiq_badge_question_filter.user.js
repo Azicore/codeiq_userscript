@@ -4,7 +4,7 @@
 // @description Change background color of badge questions in CodeIQ top page
 // @include     https://codeiq.jp/
 // @include     https://codeiq.jp/#*
-// @version     0.1.0
+// @version     0.1.1
 // ==/UserScript==
 
 var main = function($) {
@@ -39,6 +39,12 @@ var main = function($) {
 	// 掲載中の全ての問題についてくり返す
 	$q.each(function() {
 		var $t = $(this);
+		var $l = $('a', $t);
+		// 空のブロックは無視する
+		if (!$l.size()) {
+			finish();
+			return true;
+		}
 		var s = $t.hasClass('cassette');
 		var title = $(s ? 'h2' : 'h5', $t).text();
 		var $a = s ? $t : $t.prev();
@@ -48,7 +54,7 @@ var main = function($) {
 			finish();
 			return true;
 		}
-		var url = $('a', $t).last().attr('href');
+		var url = $l.last().attr('href');
 		var qnum = url.split('/').pop();
 		// キャッシュに存在する問題の場合、キャッシュのデータに従う
 		if (hash[qnum]) {
