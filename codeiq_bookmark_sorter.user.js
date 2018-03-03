@@ -4,7 +4,8 @@
 // @description Sort bookmarked questions in CodeIQ my page
 // @include     https://codeiq.jp/my_challenge_before.php
 // @include     https://codeiq.jp/my_challenge_before.php#*
-// @version     0.1.0
+// @run-at      document-end
+// @version     0.1.1
 // ==/UserScript==
 
 var main = function($) {
@@ -31,8 +32,6 @@ var main = function($) {
 	console.log(msg + 'Sort completed.');
 };
 
-window.onload = function() {
-	var el = document.createElement('script');
-	el.textContent = '(' + main + ')(jQuery);';
-	document.body.appendChild(el);
-};
+var el = document.createElement('script');
+el.textContent = '(' + main + ')(jQuery);';
+document.body.appendChild(el);

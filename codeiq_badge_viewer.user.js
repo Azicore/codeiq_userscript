@@ -3,7 +3,8 @@
 // @namespace   jp.ne.sakura.azisava
 // @description Display all CodeIQ badges you have
 // @include     https://codeiq.jp/my_*
-// @version     0.1.0
+// @run-at      document-end
+// @version     0.1.1
 // ==/UserScript==
 
 var main = function($) {
@@ -224,8 +225,6 @@ var main = function($) {
 	});
 };
 
-window.onload = function() {
-	var el = document.createElement('script');
-	el.textContent = '(' + main + ')(jQuery);';
-	document.body.appendChild(el);
-};
+var el = document.createElement('script');
+el.textContent = '(' + main + ')(jQuery);';
+document.body.appendChild(el);

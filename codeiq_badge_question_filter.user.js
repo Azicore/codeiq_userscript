@@ -4,7 +4,8 @@
 // @description Change background color of badge questions in CodeIQ top page
 // @include     https://codeiq.jp/
 // @include     https://codeiq.jp/#*
-// @version     0.1.1
+// @run-at      document-end
+// @version     0.1.2
 // ==/UserScript==
 
 var main = function($) {
@@ -91,8 +92,6 @@ var main = function($) {
 	});
 };
 
-window.onload = function() {
-	var el = document.createElement('script');
-	el.textContent = '(' + main + ')(jQuery);';
-	document.body.appendChild(el);
-};
+var el = document.createElement('script');
+el.textContent = '(' + main + ')(jQuery);';
+document.body.appendChild(el);
