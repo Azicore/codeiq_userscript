@@ -4,12 +4,12 @@
 // @description Display all CodeIQ badges you have
 // @include     https://codeiq.jp/my_*
 // @run-at      document-end
-// @version     0.1.1
+// @version     0.2.0
 // ==/UserScript==
 
 var main = function($) {
 	var cls = 'badgeViewer_'; // IDとクラス名のプレフィクス
-	var $badges = $('img.tTip');
+	var $badges = $('li.views-row img');
 	var $body = $('body');
 	var w = $(window).width();
 	var n = $badges.size(); // バッジ数
@@ -97,7 +97,7 @@ var main = function($) {
 		$('.' + cls + 'badge').remove();
 		for (var i = 0; badges.length > i; i++) {
 			$body.append(
-				badges[i].clone().toggleClass('tTip ' + cls + 'badge').css({
+				badges[i].clone().toggleClass(cls + 'badge').css({
 					position: 'absolute',
 					width   : badgeWidth + 'px', height: badgeWidth + 'px',
 					left    : (w - frameWidth) / 2 + (paddingRatio + i % bpl * (1 + marginRatio)) * badgeWidth,
@@ -226,5 +226,5 @@ var main = function($) {
 };
 
 var el = document.createElement('script');
-el.textContent = '(' + main + ')(jQuery);';
+el.textContent = 'jQuery(' + main + ');';
 document.body.appendChild(el);
