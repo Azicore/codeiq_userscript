@@ -5,7 +5,7 @@
 // @include     https://codeiq.jp/my_challenge_before
 // @include     https://codeiq.jp/my_challenge_before*
 // @run-at      document-end
-// @version     0.2.0
+// @version     0.2.1
 // ==/UserScript==
 
 var main = function($) {
@@ -23,21 +23,6 @@ var main = function($) {
 			}),
 			$('h2', t).text()
 		]);
-		$.ajax({
-			url: $('a.todetail', t).attr('href'),
-			dataType: 'html',
-			success: function(html) {
-				html = html
-					.replace(/<(img|link) ([^>]+)>/g, '')
-					.replace(/<(script|iframe)([ >])/g, '<!-- $1$2')
-					.replace(/<\/(script|iframe)>/g, '</$1 -->');
-				$('p.cdata_member', t).append($('span.cdata_text', html).eq(0).css({
-					fontSize: '100%',
-					fontWeight: 'bold',
-					color: '#333333'
-				}));
-			}
-		});
 	}).remove();
 	e.sort(function(a, b) {
 		return a[1] > b[1] ? 1 : -1;
