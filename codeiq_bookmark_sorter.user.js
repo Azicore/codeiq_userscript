@@ -5,7 +5,7 @@
 // @include     https://codeiq.jp/my_challenge_before
 // @include     https://codeiq.jp/my_challenge_before*
 // @run-at      document-end
-// @version     0.2.2
+// @version     0.2.3
 // ==/UserScript==
 
 var main = function($) {
@@ -27,7 +27,7 @@ var main = function($) {
 	e.sort(function(a, b) {
 		return a[1] > b[1] ? 1 : -1;
 	});
-	$('div.view-content').eq(1).children().each(function() {
+	$('div.view-content').last().children().each(function() {
 		var g = e.shift();
 		$(this).append(g[0]);
 		console.log(msg + 'Key=' + g[1] + '; Name="' + g[2] + '";');

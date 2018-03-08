@@ -4,12 +4,12 @@
 // @description Display all CodeIQ badges you have
 // @include     https://codeiq.jp/my_*
 // @run-at      document-end
-// @version     0.2.0
+// @version     0.2.1
 // ==/UserScript==
 
 var main = function($) {
 	var cls = 'badgeViewer_'; // IDとクラス名のプレフィクス
-	var $badges = $('li.views-row img');
+	var $badges = $('li.views-row a img');
 	var $body = $('body');
 	var w = $(window).width();
 	var n = $badges.size(); // バッジ数
