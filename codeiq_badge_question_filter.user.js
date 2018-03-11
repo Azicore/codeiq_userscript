@@ -4,8 +4,9 @@
 // @description Change background color of badge questions in CodeIQ top page
 // @include     https://codeiq.jp/
 // @include     https://codeiq.jp/#*
+// @include     https://codeiq.jp/q/search*
 // @run-at      document-end
-// @version     0.1.2
+// @version     0.2.0
 // ==/UserScript==
 
 var main = function($) {
@@ -27,7 +28,7 @@ var main = function($) {
 		hash[c[0]] = c[1];
 	}
 	cache = [];
-	var $q = $('div.cassette, div.alink');
+	var $q = $('.topListBox');
 	var rnum = $q.size();
 	var finish = function() {
 		// 全問題を確認し終わったときの処理
@@ -40,22 +41,9 @@ var main = function($) {
 	// 掲載中の全ての問題についてくり返す
 	$q.each(function() {
 		var $t = $(this);
-		var $l = $('a', $t);
-		// 空のブロックは無視する
-		if (!$l.size()) {
-			finish();
-			return true;
-		}
-		var s = $t.hasClass('cassette');
-		var title = $(s ? 'h2' : 'h5', $t).text();
-		var $a = s ? $t : $t.prev();
-		// ウチに来ない？問題はスキップする
-		if ($('img[src="/simg/icon/101.png"]', $a).size()) {
-			console.log(msg + 'Check skipped: "' + title + '"');
-			finish();
-			return true;
-		}
-		var url = $l.last().attr('href');
+		var $h = $('h3', $t);
+		var title = $h.text();
+		var url = $('a', $h).attr('href');
 		var qnum = url.split('/').pop();
 		// キャッシュに存在する問題の場合、キャッシュのデータに従う
 		if (hash[qnum]) {
@@ -74,7 +62,7 @@ var main = function($) {
 			qnum: qnum,
 			success: function(html) {
 				html = html
-					.replace(/<img src="\/img\/tit_sub09\.gif"[^>]+>/, '<span class="badgecheck"></span>')
+					.replace(/<img src="[^"]*tit_sub09\.gif"[^>]+>/, '<span class="badgecheck"></span>')
 					.replace(/<(img|link) ([^>]+)>/g, '')
 					.replace(/<(script|iframe)([ >])/g, '<!-- $1$2')
 					.replace(/<\/(script|iframe)>/g, '</$1 -->');
@@ -93,5 +81,5 @@ var main = function($) {
 };
 
 var el = document.createElement('script');
-el.textContent = '(' + main + ')(jQuery);';
+el.textContent = 'jQuery(' + main + ');';
 document.body.appendChild(el);
