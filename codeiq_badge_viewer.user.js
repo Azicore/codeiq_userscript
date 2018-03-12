@@ -4,7 +4,7 @@
 // @description Display all CodeIQ badges you have
 // @include     https://codeiq.jp/my_*
 // @run-at      document-end
-// @version     0.3.0
+// @version     0.3.1
 // ==/UserScript==
 
 var main = function($) {
@@ -160,7 +160,6 @@ var PI_2 = 2 * Math.PI; // 2π
 			$badges.each(function(i) {
 				var $this = $(this);
 				var img = new Image();
-				img.src = $this.attr('src');
 				img.onload = function() {
 					ctx.drawImage(img, 0, 0);
 					var data = ctx.getImageData(0, 0, badgeSize, badgeSize).data;
@@ -181,6 +180,13 @@ var PI_2 = 2 * Math.PI; // 2π
 					sortedBadges.push($this);
 					loadFinish();
 				};
+				img.onerror = function() {
+					$this.hue = PI_2;
+					$this.value = 0;
+					sortedBadges.push($this);
+					loadFinish();
+				};
+				img.src = $this.attr('src');
 			});
 		// 色彩ソートをしない場合
 		} else {
@@ -225,7 +231,7 @@ var PI_2 = 2 * Math.PI; // 2π
 					e.stopPropagation();
 				})
 			// ボタン以外をクリック時は全て消去
-			).click(function() {
+			).on('click', function() {
 				$('.' + cls + 'badgeFrame').fadeOut(function() { $(this).remove(); });
 				$('.' + cls + 'badge').remove()
 				$(window).off('.' + cls);
